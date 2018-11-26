@@ -8,6 +8,9 @@ import os
 import requests
 import json
 
+
+import picamera
+
 import iothub_client
 #pylint: disable=E0611
 from iothub_client import (IoTHubModuleClient, IoTHubClientError, IoTHubTransportProvider)
@@ -67,7 +70,7 @@ class HubManager(object):
 
 def main(imagePath, imageProcessingEndpoint):
     try:
-        print ( "Simulated camera module for Azure IoT Edge. Press Ctrl-C to exit." )
+        print ( "PiCamera module for Azure IoT Edge. Press Ctrl-C to exit." )
 
         try:
             global hubManager 
@@ -76,12 +79,19 @@ def main(imagePath, imageProcessingEndpoint):
             print ( "Unexpected error %s from IoTHub" % iothub_error )
             return
 
-        print ( "The sample is now sending images for processing and will indefinitely.")
+        print ( "The sample is now sending images captured from PiCamera and will indefinitely.")
 
-        while True:
-            classification = sendFrameForProcessing(imagePath, imageProcessingEndpoint)
-            send_to_hub(classification)
-            time.sleep(10)
+        with picamera.PiCamera() as camera:
+            camera.resolution = (640, 480)
+            camera.start_preview()
+            #camera warm-up time
+            time.sleep(2)
+            imagePath = '/capturedImage/captured.jpg'
+            while True:
+                camera.capture(imagePath)
+                classification = sendFrameForProcessing(imagePath, imageProcessingEndpoint)
+                send_to_hub(classification)
+                time.sleep(10)
 
     except KeyboardInterrupt:
         print ( "IoT Edge module sample stopped" )

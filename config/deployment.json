@@ -42,7 +42,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebcregistry.azurecr.io/catrecognitionmodule:0.0.1-arm32v7",
+              "image": "ebcregistry.azurecr.io/catrecognitionmodule:0.0.2-arm32v7",
               "createOptions": "{}"
             }
           },
@@ -52,8 +52,8 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebcregistry.azurecr.io/cameracapturefakemodule:0.0.1-arm32v7",
-              "createOptions": "{\"Env\":[\"IMAGE_PATH=test_image.jpg\",\"IMAGE_PROCESSING_ENDPOINT=http://catrecognitionmodule/image\"]}"
+              "image": "ebcregistry.azurecr.io/cameracapturefakemodule:0.0.5-arm32v7",
+              "createOptions": "{\"Env\":[\"IMAGE_PATH=test_image.jpg\",\"IMAGE_PROCESSING_ENDPOINT=http://catrecognitionmodule/image\"], \"HostConfig\": {\"Binds\": [\"/dev/vchiq:/dev/vchiq\"],\"Devices\": [{\"PathOnHost\": \"/dev/vchiq\",\"PathInContainer\": \"/dev/vchiq\", \"CgroupPermissions\": \"mrw\" }]}}"
             }
           }
         }
