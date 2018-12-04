@@ -4,7 +4,7 @@
     "image": {
         "repository": "ebcregistry.azurecr.io/cameracapturefakemodule",
         "tag": {
-            "version": "0.0.5",
+            "version": "0.0.8",
             "platforms": {
                 "arm32v7": "./arm32v7.Dockerfile"
             }

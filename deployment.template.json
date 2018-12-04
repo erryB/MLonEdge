@@ -32,7 +32,13 @@
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
               "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}], \"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
+            },
+            "env": {
+              "OptimizeForPerformance": {
+                  "value": "false"
+              }
             }
+            
           }
         },
         "modules": {
@@ -66,7 +72,7 @@
         "schemaVersion": "1.0",
         "routes": {
           
-          "cameraCaptureFakeModuleToIoTHub": "FROM /messages/modules/cameraCaptureFakeModule/outputs/* INTO $upstream"
+          "cameraCaptureFakeModuleToIoTHub": "FROM /messages/modules/* INTO $upstream"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

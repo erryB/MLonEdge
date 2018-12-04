@@ -22,7 +22,8 @@ from iothub_client import (IoTHubMessage, IoTHubMessageDispositionResult, IoTHub
 MESSAGE_TIMEOUT = 10000
 
 # Choose HTTP, AMQP or MQTT as transport protocol.  
-PROTOCOL = IoTHubTransportProvider.MQTT
+#PROTOCOL = IoTHubTransportProvider.MQTT
+PROTOCOL = IoTHubTransportProvider.AMQP
 
 # global counters
 SEND_CALLBACKS = 0
@@ -90,7 +91,9 @@ def main(imagePath, imageProcessingEndpoint):
             while True:
                 camera.capture(imagePath)
                 classification = sendFrameForProcessing(imagePath, imageProcessingEndpoint)
+                print ("Got result, ready to send")
                 send_to_hub(classification)
+                print ("Sent result to iot hub (if connection is available)\n")
                 time.sleep(10)
 
     except KeyboardInterrupt:
